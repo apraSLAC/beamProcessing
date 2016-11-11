@@ -30,7 +30,7 @@ DEFAULT = object()
 #                                    OpenCV                                    #
 ################################################################################
 
-def preprocess(image, resize=rsz_default, kernel=(15,15), sigma=0):
+def preprocess(image, resize=rsz_default, kernel=kernel_size, sigma=0):
 	"""Preprocess the image for resizing,noise reduction, etc"""
 	image = to_uint8(image)
 	image_small = cv2.resize(image, (0,0), fx=resize, fy=resize)

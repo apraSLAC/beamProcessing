@@ -7,13 +7,14 @@ from matplotlib import pyplot as plt
 ################################################################################
 
 MIN_MATCH_COUNT = 10
+DEFAULT_FD = cv2.ORB_create
 
 ################################################################################
 #                                    OpenCV                                    #
 ################################################################################
 
-def get_kp_desc(kp_detector=ORB):
-	pass
+def get_kp_desc(image, kp_detector=DEFAULT_FD, mask=None):
+    return kp_detector(image, mask)
 
 def get_sample_kp(sample=None, load=None):
 	pass
