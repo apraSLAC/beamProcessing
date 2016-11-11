@@ -1,4 +1,3 @@
-import IPython
 import time
 import cv2
 import os 
@@ -67,14 +66,12 @@ def get_bounding_box(image, contour=None, threshold=3):
 	return x,y,w,h
 
 def check_for_beam(M=None, image=None, contour=None, resize=rsz_default, 
-                   kernel=kernel_size, m_thresh_max = max_m0, 
-                   m_thresh_min=min_m0):
+                   kernel=kernel_size, m_thresh_max=max_m0, m_thresh_min=min_m0):
 	"""
 	Checks if there is a beam in the image by checking the value of the zeroth
 	moment. If it is very large, then the image has no beam.
 	"""	
 	try:
-
 		if M['m00'] < m_thresh_max and M['m00'] > m_thresh_min:
 			return True
 		else:
@@ -263,7 +260,8 @@ def get_beam_nobeam_nonetype_all(data_source_str, detector_str):
 		image = det.image(event)
 		try:
 			image = to_uint8(image)
-			image_prep = preprocess(image, resize=rsz_default, kernel=kernel_size)
+			image_prep = preprocess(image, resize=rsz_default,
+									kernel=kernel_size)
 			contour = get_contour(image_prep)
 			M = get_image_moments(contour=contour)
 			if check_for_beam(M):
