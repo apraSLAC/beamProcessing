@@ -18,19 +18,19 @@ mem = Memory(cachedir=cachedir, verbose = 0)
 #                                Default Globals                               #
 ################################################################################
 
-rsz_default=1.0
-kernel_size = (17,17)
-max_m0 = 10e5
-min_m0 = 10e1
+rsz_default  = 1.0
+kernel_size  = (17,17)
+max_m0       = 10e5
+min_m0       = 10e1
 total_images = 25425
-src_folder = "/reg/neh/home/apra/work/python/peakfinding/"
-DEFAULT = object()
+src_folder   = "/reg/neh/home/apra/work/python/peakfinding/"
+DEFAULT      = object()
 
 ################################################################################
 #                                    OpenCV                                    #
 ################################################################################
 
-def preprocess(image, resize=rsz_default, kernel=(15,15), sigma=0):
+def preprocess(image, resize=rsz_default, kernel=kernel_size, sigma=0):
 	"""Preprocess the image for resizing,noise reduction, etc"""
 	image = to_uint8(image)
 	image_small = cv2.resize(image, (0,0), fx=resize, fy=resize)
@@ -84,7 +84,7 @@ def check_for_beam(M=None, image=None, contour=None, resize=rsz_default,
 		M = get_image_moments(contour=contour)
 	return check_for_beam(M)
 
-def find_beam(image, resize=rsz_default, kernel=kernel_size):
+def detect(image, resize=rsz_default, kernel=kernel_size):
 	"""
 	Returns the centroid and bounding box of the beam. Returns None if no beam 
 	is present.
@@ -240,7 +240,7 @@ def get_all_centroids(data_source_str, detector_str):
 	for nevent, event in enumerate(tqdm(ds.events())):
 		image = det.image(event)
 		try:
-			centroid, _ = find_beam(image)
+			centroid, _ = detect(image)
 			all_x.append(centroid[0])
 			all_y.append(centroid[1])
 		except (TypeError, AttributeError):
@@ -373,7 +373,7 @@ if __name__ == "__main__":
 	# for image in images:
 
 	# 	try:
-	# 		centroid, bounding_box = find_beam(image)
+	# 		centroid, bounding_box = detect(image)
 	# 		all_x.append(centroid[0])
 	# 		all_y.append(centroid[1])
 	# 	except TypeError:
@@ -425,7 +425,7 @@ if __name__ == "__main__":
 	# 	event = get_event_from_nevent(ds, run, nevent, timestamps)
 	# 	image = det.image(event)
 	# 	print_image_info(image)
-	# 	_, _ = find_beam(image, plot=True)
+	# 	_, _ = detect(image, plot=True)
 
 
 
@@ -441,7 +441,7 @@ if __name__ == "__main__":
 	# 	event = get_event_from_nevent(ds, run, nevent, timestamps)
 	# 	image = det.image(event)
 	# 	print_image_info(image)
-	# 	_, _ = find_beam(image, plot=True)
+	# 	_, _ = detect(image, plot=True)
 
 
 	
@@ -457,5 +457,5 @@ if __name__ == "__main__":
 
 	# images = get_images_from_dir(image_dir,n_images=n_images, shuffle=True)
 	# for image in images:
-	# 	find_beam(image, plot=True)
+	# 	detect(image, plot=True)
 
